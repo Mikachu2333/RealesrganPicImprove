@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project ver="10" name="RealesrganRimagePicImprove" libEmbed="true" icon="..." ui="win" output="RealesrganRimagePicImprove.exe" CompanyName="None" FileDescription="ImproveAnimePic" LegalCopyright="Copyright (C) MIKA 2023 MIT License" ProductName="AnimePicImprover" InternalName="RealesrganRimagePicImprove" FileVersion="1.0.0.03" ProductVersion="1.0.0.03" publishDir="/dist/" dstrip="true">
+	<file name="main.aardio" path="main.aardio" comment="main.aardio"/>
+	<folder name="资源文件" path="res" embed="true"/>
+	<folder name="窗体文件" path="dlg" comment="目录" embed="true"/>
+</project>
