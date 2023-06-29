@@ -86,8 +86,8 @@ mainForm.start_cov.oncommand = function(id,event){
 	}else{
 		mainForm.process_show.text = "开始运行"
 		for(count=1;mainForm.file_list.count;1){
-			var temp_filepath = io.splitpath(mainForm.file_list.getItemText(count))
-			var argvs = "-i """ + mainForm.file_list.getItemText(count) + """ -o """ + mainForm.edit_o_d.text + "\" + temp_filepath.name + "_out.png"" -n realesrgan-x4plus-anime"
+			var temp_filepath = io.splitpath(mainForm.file_list.getItemText(1))
+			var argvs = "-i """ + mainForm.file_list.getItemText(1) + """ -o """ + mainForm.edit_o_d.text + "\" + temp_filepath.name + "_out.png"" -n realesrgan-x4plus-anime"
 			mainForm.process_show.text = "RealModel开始 " + temp_filepath.name
 			if(mainForm.show_hide.checked){
 				process.executeWait(io._exedir + "\realesrgan_rimage\realesrgan-ncnn-vulkan.exe",argvs,,0/*_SW_HIDE*/)
@@ -123,15 +123,26 @@ mainForm.start_cov.oncommand = function(id,event){
 					io.remove("\\?\" + mainForm.edit_o_d.text + "\" + temp_filepath.name + "_out.png")
 					mainForm.process_show.text = "RealModel删除 " + temp_filepath.name
 				}
-				io.remove("\\?\" + mainForm.file_list.getItemText(count))
+				io.remove("\\?\" + mainForm.file_list.getItemText(1))
 				mainForm.process_show.text = "原始删除 " + temp_filepath.name
 			}
-			mainForm.file_list.delete(count)
+			mainForm.file_list.delete(1)
 			mainForm.process_show.text = "删除 " + temp_filepath.name
 		}
 		win.msgbox("完毕！","成功",,mainForm.hwnd)
 		mainForm.process_show.text = "（双击清空）显示运行情况"
 	}	
 }
+
+mainForm.onDropFiles = function(files){
+	if(count == null){
+		mainForm.file_list.clear()
+		count = 0
+	}
+	for(k,v in files){
+		mainForm.file_list.add(v)
+	}	
+}
+
 mainForm.show()
 return win.loopMessage()
