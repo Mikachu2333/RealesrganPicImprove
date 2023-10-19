@@ -1,28 +1,28 @@
 import fsys.dlg
-import sevenZip.decoder2
+import gdip
 import process
+import sevenZip.decoder2
 import win.ui
-import win.ui.tooltip
 /*DSG{{*/
-mainForm = win.form(cls="RIMG_GUI_FORM";text="RealesrganRimagePicImprove";right=587;bottom=346;border="thin";max=false)
+mainForm = win.form(cls="RIMG_GUI_FORM";text="RealesrganRimagePicImprove";right=587;bottom=394;border="thin";max=false)
 mainForm.add(
-auto_delete={cls="checkbox";text="自动删除";left=473;top=112;right=573;bottom=137;bgcolor=65535;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=10};
-auto_improve={cls="checkbox";text="自动缩小";left=473;top=40;right=573;bottom=65;bgcolor=65535;checked=1;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=13};
-edit_o_d={cls="edit";left=156;top=317;right=454;bottom=342;autovscroll=false;edge=1;font=LOGFONT(h=-14;name='微软雅黑');readonly=1;z=9};
-edit_o_q={cls="edit";text="90";left=499;top=182;right=545;bottom=207;align="center";edge=1;font=LOGFONT(h=-16;name='微软雅黑');multiline=1;num=1;z=6};
-file_list={cls="listbox";left=8;top=35;right=454;bottom=282;edge=1;font=LOGFONT(h=-14;name='微软雅黑');hscroll=1;items={};vscroll=1;z=2};
-out_format={cls="combobox";left=481;top=250;right=568;bottom=276;edge=1;font=LOGFONT(h=-16;name='微软雅黑');items={"jpg";"png";"oxipng"};mode="dropdown";z=8};
-process_show={cls="edit";left=8;top=289;right=454;bottom=311;autovscroll=false;edge=1;font=LOGFONT(h=-14;name='微软雅黑');readonly=1;z=12};
-show_hide={cls="checkbox";text="隐藏执行";left=473;top=76;right=573;bottom=101;bgcolor=65535;checked=1;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=11};
-start_cov={cls="button";text="开始 Start";left=465;top=289;right=578;bottom=342;border=1;default=1;font=LOGFONT(h=-17;name='微软雅黑');z=4};
+auto_delete={cls="checkbox";text="删除原件";left=486;top=123;right=580;bottom=148;bgcolor=65535;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=10};
+auto_improve={cls="checkbox";text="自动缩小";left=486;top=39;right=580;bottom=64;bgcolor=65535;checked=1;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=13};
+edit_o_d={cls="edit";left=158;top=362;right=477;bottom=387;autovscroll=false;edge=1;font=LOGFONT(h=-14;name='微软雅黑');readonly=1;z=9};
+edit_o_q={cls="edit";text="95";left=509;top=229;right=555;bottom=254;align="center";edge=1;font=LOGFONT(h=-16;name='微软雅黑');multiline=1;num=1;z=6};
+file_list={cls="listbox";left=8;top=35;right=477;bottom=327;edge=1;font=LOGFONT(h=-14;name='微软雅黑');hscroll=1;items={};vscroll=1;z=2};
+out_format={cls="combobox";left=495;top=293;right=570;bottom=319;edge=1;font=LOGFONT(h=-16;name='微软雅黑');items={"jpg";"png";"webp";"avif"};mode="dropdown";z=8};
+process_show={cls="edit";left=9;top=334;right=477;bottom=356;autovscroll=false;edge=1;font=LOGFONT(h=-14;name='微软雅黑');readonly=1;z=12};
+show_hide={cls="checkbox";text="隐藏执行";left=486;top=80;right=580;bottom=105;bgcolor=65535;checked=1;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=11};
+start_cov={cls="button";text="开始";left=482;top=334;right=580;bottom=387;border=1;default=1;font=LOGFONT(h=-17;name='微软雅黑');z=4};
 static_file_list={cls="static";text="文件列表 File list";left=3;top=7;right=137;bottom=32;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=3};
-static_out_dir={cls="static";text="输出目录 Out-Dir：";left=8;top=317;right=156;bottom=342;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=1};
-static_out_format={cls="static";text="最终输出格式";left=473;top=219;right=573;bottom=244;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=7};
-static_out_quailty={cls="static";text="输出质量";left=473;top=154;right=573;bottom=179;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=5}
+static_out_dir={cls="static";text="输出目录 Out-Dir：";left=10;top=362;right=158;bottom=387;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=1};
+static_out_format={cls="static";text="输出格式";left=495;top=265;right=570;bottom=290;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=7};
+static_out_quailty={cls="static";text="输出质量";left=495;top=201;right=570;bottom=226;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=5}
 )
 /*}}*/
 
-if((not io.exist(io._exedir + "realesrgan_rimage\rimage.exe")) or (io.getSize(io._exedir + "realesrgan_rimage.7z") != 11701587)){
+if((not io.exist(io._exedir + "realesrgan_rimage\rimage.exe")) or (io.getSize(io._exedir + "realesrgan_rimage\rimage.exe") != 27413536)){
 	io.remove(io._exedir + "realesrgan_rimage.7z")
 	io.remove(io._exedir + "realesrgan_rimage\rimage.exe")
 	string.save(io._exedir + "realesrgan_rimage.7z",$"\res\realesrgan_rimage.7z",true)
@@ -32,47 +32,16 @@ if((not io.exist(io._exedir + "realesrgan_rimage\rimage.exe")) or (io.getSize(io
 	temp_7z.close()
 	io.remove(io._exedir + "realesrgan_rimage.7z")
 }
+mainForm.show()
 
 mainForm.process_show.text = "（双击清空）显示运行情况"
 mainForm.file_list.add("双击左键添加，选中后使用右键删除")
-mainForm.file_list.add("双击下方的（双击清空）以快速清空文件列表")
+mainForm.file_list.add("双击下方的“（双击清空）”以快速清空文件列表")
 
 mainForm.process_show.wndproc = function(hwnd,message,wParam,lParam){
 	select(message){
 		case 0x203/*_WM_LBUTTONDBLCLK*/{
 			mainForm.file_list.clear()
-		}
-	}
-}
-
-mainForm.edit_o_d.text = """" + string.left(io._exedir,-2,true) + """"
-
-var count = null
-mainForm.onDropFiles = function(files){
-	if(count == null){
-		mainForm.file_list.clear()
-		count = 0
-	}
-	for(k,v in files){mainForm.file_list.add(v)}
-	mainForm.edit_o_d.text = """" + string.left(io.splitpath(mainForm.file_list.getItemText(1)).dir,-2,true) + """"
-}
-mainForm.file_list.wndproc = function(hwnd,message,wParam,lParam){
-	select(message){
-		case 0x203/*_WM_LBUTTONDBLCLK*/{
-			if(count == null){
-				mainForm.file_list.clear()
-				count = 0
-			}
-			var temp1,temp2 = fsys.dlg.openEx("图片 Picture|*.png;*.jpg;*.jpeg;*.webp","选择图片 Select IMGs",,mainForm.hwnd)
-			if(temp1 != null){
-				for(i,j in temp1){mainForm.file_list.add(j,1)}
-				mainForm.edit_o_d.text = """" + string.left(io.splitpath(mainForm.file_list.getItemText(1)).dir,-2,true) + """"
-			}else{
-				win.msgbox('请选择正确的图片\nPlease select Pics we support.',"Warning",,mainForm.hwnd,2000)
-			}
-		}
-		case 0x204/*_WM_RBUTTONDOWN*/{
-			mainForm.file_list.delete()
 		}
 	}
 }
@@ -87,6 +56,65 @@ mainForm.edit_o_d.wndproc = function(hwnd,message,wParam,lParam){
 				win.msgbox('请选择正确的目录\nPlease select right dir to save.',"Warning",,mainForm.hwnd,2000)
 			}
 		}
+		case 0x205/*_WM_RBUTTONUP*/{
+			win.msgbox(tips_table["edit_o_d"],"out dir")
+		}
+	}
+}
+
+mainForm.onDropFiles = function(files){
+	if(count == null){
+		mainForm.file_list.clear()
+		count = 0
+	}
+	for(k,v in files){mainForm.file_list.add(v)}
+	mainForm.edit_o_d.text = """" + string.left(io.splitpath(mainForm.file_list.getItemText(1)).dir,-2,true) + """"
+}
+
+
+
+mainForm.edit_o_d.text = """" + string.left(io._exedir,-2,true) + """"
+
+var count = null
+mainForm.onDropFiles = function(files){
+	if(count == null){
+		mainForm.file_list.clear()
+		count = 0
+	}
+	var temp_list = {
+		".png";
+		".jpg";
+		".jpeg";
+	}
+	for(k,v in files){
+		temp_ext = io.splitpath(v).ext
+		for m,n in temp_list{
+			if(n == temp_ext){
+				mainForm.file_list.add(v)
+			}
+		}
+	}
+	mainForm.edit_o_d.text = """" + string.left(io.splitpath(mainForm.file_list.getItemText(1)).dir,-2,true) + """"
+}
+
+mainForm.file_list.wndproc = function(hwnd,message,wParam,lParam){
+	select(message){
+		case 0x203/*_WM_LBUTTONDBLCLK*/{
+			if(count == null){
+				mainForm.file_list.clear()
+				count = 0
+			}
+			var temp1,temp2 = fsys.dlg.openEx("图片 Picture|*.png;*.jpg;*.jpeg;*.webp;*.avif;*.oxipng;*.mozjpeg","选择图片 Select IMGs",,mainForm.hwnd)
+			if(temp1 != null){
+				for(i,j in temp1){mainForm.file_list.add(j,1)}
+				mainForm.edit_o_d.text = """" + string.left(io.splitpath(mainForm.file_list.getItemText(1)).dir,-2,true) + """"
+			}else{
+				win.msgbox('请选择正确的图片\nPlease select Pics we support.',"Warning",,mainForm.hwnd,2000)
+			}
+		}
+		case 0x204/*_WM_RBUTTONDOWN*/{
+			mainForm.file_list.delete()
+		}
 	}
 }
 
@@ -94,7 +122,6 @@ mainForm.start_cov.oncommand = function(id,event){
 	if(count != 0){
 		win.msgbox('请选择正确的图片\nPlease select Pics we support before execute.',"Warning",,mainForm.hwnd,2000)
 	}else{
-		mainForm.process_show.text = "开始运行"
 		quality = mainForm.edit_o_q.text
 		format = mainForm.out_format.selText
 		if(mainForm.auto_delete.checked == true){auto_del = true}else{auto_del = false}
@@ -103,48 +130,46 @@ mainForm.start_cov.oncommand = function(id,event){
 		auto_size = mainForm.auto_improve.checked
 		auto_del = mainForm.auto_delete.checked
 		for(count=1;mainForm.file_list.count;1){
-			var temp_filename = io.splitpath(mainForm.file_list.getItemText(1)).name
-			var argvs = "-i """ + mainForm.file_list.getItemText(1) + """ -o """ + out_dir + "\" + temp_filename + "_out.png"" -n realesrgan-x4plus-anime"
-			mainForm.process_show.text = "RealModel开始 " + mainForm.file_list.getItemText(1)
+			temp_file = string.replace(mainForm.file_list.getItemText(1),"@\","\\")
+			temp_filename = io.splitpath(temp_file).name
+			test_gdip = gdip.bitmap(temp_file)
+			argvs = "-i """ + temp_file + """ -o """ + out_dir + "\" + temp_filename + "_out.png"" -n realesrgan-x4plus-anime"
+			mainForm.process_show.text = "RealModel开始 " + temp_filename
 			if(auto_hide){
 				process.executeWait(io._exedir + "realesrgan_rimage\realesrgan-ncnn-vulkan.exe",argvs,,0/*_SW_HIDE*/)
 			}else{
 				process.executeWait(io._exedir + "realesrgan_rimage\realesrgan-ncnn-vulkan.exe",argvs,,)
 			}
-			mainForm.process_show.text = "RealModel完成 " + temp_filename
-			
 			if(auto_size){
-				argvs = """" + out_dir + "\" + temp_filename + "_out.png"""
-				argvs = argvs + " -q " + quality
-				argvs = argvs + " --quantization 100" 
+				argvs = """" + string.replace((out_dir + "\" + temp_filename + "_out.png"),"@\","\\") + """ -t 4 -q " + quality
+				argvs = argvs + " --quantization 100 --dithering 100 -s _updated" 
 				argvs = argvs + " -f " + format
-				argvs = argvs + " -s _updated"
-				argvs = argvs + " -o " + out_dir
+				argvs = argvs + " --width " + test_gdip.width + " --height " + test_gdip.height
+				argvs = argvs + " -o """ + out_dir + """"
 				mainForm.process_show.text = "Rimage开始 " + temp_filename
 				if(auto_hide){
 					process.executeWait("""" + io._exedir + "realesrgan_rimage\rimage.exe""",argvs,,0/*_SW_HIDE*/)
 				}else{
 					process.executeWait("""" + io._exedir + "realesrgan_rimage\rimage.exe""",argvs,,)
 				}
-				
-				mainForm.process_show.text = "Rimage完成 "
+				io.remove((out_dir + "\" + temp_filename + "_out.png"))
+				mainForm.process_show.text = "Rimage结束 "+ temp_filename	
 			}
 			
 			if(auto_del){
-				if(auto_size){
-					io.remove(out_dir + "\" + temp_filename + "_out.png")
-					mainForm.process_show.text = "RealModel删除 " + temp_filename
-				}
-				io.remove(mainForm.file_list.getItemText(1))
-				mainForm.process_show.text = "原始删除 " + temp_filename
+				new_file_path = string.slice(out_dir,2,-2,true) + "\" + io.splitpath(temp_file).name + suf_text + "." + format
+				if(io.exist(new_file_path)){
+					io.remove(mainForm.file_list.getItemText(1))
+					mainForm.process_show.text = "已删除Deleted"
+				}else{mainForm.process_show.text = "失败，已保留原件Failed&File reserved"}
 			}
+			mainForm.process_show.text = "成功Success " + temp_filename
 			mainForm.file_list.delete(1)
-			mainForm.process_show.text = "删除 " + temp_filename
 		}
-		win.msgbox("完毕！","成功",,mainForm.hwnd)
-		mainForm.process_show.text = "（双击清空）显示运行情况"
-	}	
+		win.setForeground(mainForm.hwnd)
+		win.msgbox("转换完毕！Complete!","成功Success",,mainForm.hwnd,10000)
+		mainForm.process_show.text = "(清空Clear) 显示Rimage运行情况 Show the process of Rimage"
+	}
 }
 
-mainForm.show()
 return win.loopMessage()
