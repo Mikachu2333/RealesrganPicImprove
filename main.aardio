@@ -25,7 +25,7 @@ static_out_quailty={cls="static";text="输出质量";left=494;top=156;right=569;
 )
 /*}}*/
 
-if((not io.exist(io._exedir + "realesrgan_rimage\rimage.exe")) or (io.getSize(io._exedir + "realesrgan_rimage\rimage.exe") != 14766606)){
+if((not io.exist(io._exedir + "realesrgan_rimage\rimage.exe")) or (io.getSize(io._exedir + "realesrgan_rimage\rimage.exe") != 14770702)){
 	io.remove(io._exedir + "realesrgan_rimage.7z")
 	io.remove(io._exedir + "realesrgan_rimage\rimage.exe")
 	string.save(io._exedir + "realesrgan_rimage.7z",$"\res\realesrgan_rimage.7z",true)
