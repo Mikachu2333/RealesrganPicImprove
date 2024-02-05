@@ -128,7 +128,6 @@ mainForm.start_cov.oncommand = function(id,event){
 			temp_file = string.replace(temp_file,"@\","\\")
 			temp_filename = io.splitpath(temp_file).name
 			file_list_tab[count*2] = temp_filename
-			test_gdip = gdip.bitmap(temp_file)
 			argvs = "-i """ + temp_file + """ -o """ + out_dir + "\" + temp_filename + "_out.png"" -n realesrgan-x4plus-anime"
 			mainForm.process_show.text = "RealModel开始 " + temp_filename
 			if(auto_hide){
@@ -140,6 +139,14 @@ mainForm.start_cov.oncommand = function(id,event){
 				process.executeWait(io._exedir + "realesrgan_rimage\realesrgan-ncnn-vulkan.exe",argvs,,)
 			}
 			if(auto_size){
+				test_gdip,err = gdip.bitmap(temp_file)
+				if(err != null){
+					io.open()
+					io.print("该文件并非正常文件，其内部编码非jpg或png，请自行检查")
+					io.print(temp_file)
+					io.print(" ")
+					io.print("关闭本窗口即可退出程序，否则程序将卡死，直至手动关闭")
+				}
 				argvs = """" + string.replace((out_dir + "\" + temp_filename + "_out.png"),"@\","\\") + """ -t 4 -q " + quality
 				argvs = argvs + " --quantization 100 --dithering 100 -s _updated" 
 				argvs = argvs + " -f " + format
