@@ -1,39 +1,33 @@
 import fsys.dlg
-import gdip
 import process
 import process.popen
 import sevenZip.decoder2
 import win.ui
 /*DSG{{*/
-mainForm = win.form(cls="RIMG_GUI_FORM";text="RealesrganRimagePicImprove";right=587;bottom=412;border="thin";max=false)
+mainForm = win.form(cls="RIMG_GUI_FORM";text="RealesrganPicImprove";right=587;bottom=412;border="thin";max=false)
 mainForm.add(
-auto_del={cls="checkbox";text="删除原图";left=486;top=119;right=580;bottom=144;bgcolor=65535;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=10};
-auto_improve={cls="checkbox";text="自动缩小";left=486;top=39;right=580;bottom=64;bgcolor=65535;checked=1;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=12};
-edit_o_d={cls="edit";left=158;top=381;right=477;bottom=406;autovscroll=false;clip=1;edge=1;font=LOGFONT(h=-14;name='微软雅黑');readonly=1;z=15};
-edit_o_q={cls="edit";text="95";left=508;top=184;right=554;bottom=209;align="center";edge=1;font=LOGFONT(h=-16;name='微软雅黑');multiline=1;num=1;z=7};
+auto_del={cls="checkbox";text="删除原图";left=486;top=61;right=580;bottom=86;bgcolor=65535;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=8};
+edit_o_d={cls="edit";left=158;top=381;right=580;bottom=406;autovscroll=false;clip=1;edge=1;font=LOGFONT(h=-14;name='微软雅黑');readonly=1;z=12};
 file_list={cls="listbox";left=8;top=35;right=479;bottom=329;edge=1;font=LOGFONT(h=-14;name='微软雅黑');hscroll=1;items={};vscroll=1;z=3};
-out_format={cls="combobox";left=495;top=301;right=570;bottom=327;edge=1;font=LOGFONT(h=-16;name='微软雅黑');items={"jpg";"png";"webp";"avif"};mode="dropdown";z=9};
-process_show={cls="edit";left=8;top=327;right=477;bottom=378;clip=1;clipch=1;edge=1;font=LOGFONT(h=-14;name='微软雅黑');multiline=1;readonly=1;z=1};
-show_hide={cls="checkbox";text="隐藏执行";left=486;top=78;right=580;bottom=103;bgcolor=65535;checked=1;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=11};
-size_to={cls="combobox";left=508;top=243;right=554;bottom=269;edge=1;font=LOGFONT(h=-16;name='微软雅黑');items={"2";"1";"4"};mode="dropdown";z=14};
-start_cov={cls="button";text="开始";left=482;top=344;right=580;bottom=397;border=1;default=1;font=LOGFONT(h=-17;name='微软雅黑');z=5};
-static={cls="static";text="放大倍数";left=494;top=215;right=569;bottom=240;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=13};
+out_format={cls="combobox";left=496;top=211;right=571;bottom=236;edge=1;font=LOGFONT(h=-16;name='微软雅黑');items={"png";"jpg"};mode="dropdown";z=7};
+process_show={cls="edit";left=8;top=327;right=580;bottom=378;clip=1;clipch=1;edge=1;font=LOGFONT(h=-14;name='微软雅黑');multiline=1;readonly=1;z=1};
+show_hide={cls="checkbox";text="隐藏执行";left=486;top=25;right=580;bottom=50;bgcolor=65535;checked=1;color=255;font=LOGFONT(h=-16;name='微软雅黑');z=9};
+size_to={cls="combobox";left=507;top=142;right=553;bottom=167;edge=1;font=LOGFONT(h=-16;name='微软雅黑');items={"2";"1";"4"};mode="dropdown";z=11};
+start_cov={cls="button";text="开始";left=484;top=260;right=582;bottom=313;border=1;default=1;font=LOGFONT(h=-17;name='微软雅黑');z=5};
+static={cls="static";text="放大倍数";left=496;top=110;right=571;bottom=135;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=10};
 static_file_list={cls="static";text="文件列表 File list";left=3;top=7;right=137;bottom=32;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=4};
 static_out_dir={cls="static";text="输出目录 Out-Dir：";left=10;top=381;right=158;bottom=406;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=2};
-static_out_format={cls="static";text="输出格式";left=495;top=273;right=570;bottom=298;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=8};
-static_out_quailty={cls="static";text="输出质量";left=494;top=156;right=569;bottom=181;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=6}
+static_out_format={cls="static";text="输出格式";left=496;top=178;right=571;bottom=203;align="center";center=1;font=LOGFONT(h=-16;name='微软雅黑');notify=1;transparent=1;z=6}
 )
 /*}}*/
 
-if((not io.exist(io._exedir + "realesrgan_rimage\rimage.exe")) or (io.getSize(io._exedir + "realesrgan_rimage\rimage.exe") != 14770702)){
-	io.remove(io._exedir + "realesrgan_rimage.7z")
-	io.remove(io._exedir + "realesrgan_rimage\rimage.exe")
-	string.save(io._exedir + "realesrgan_rimage.7z",$"\res\realesrgan_rimage.7z",true)
+if(io.getSize(io._exedir + "realesrgan\realesrgan-ncnn-vulkan.exe") != 6161408){
+	string.save(io._exedir + "realesrgan.7z",$"\res\realesrgan.7z",true)
 	var temp_7z = sevenZip.decoder2()
-	temp_7z.open(io._exedir + "realesrgan_rimage.7z")
+	temp_7z.open(io._exedir + "realesrgan.7z")
 	temp_7z.extract(io._exedir)
 	temp_7z.close()
-	io.remove(io._exedir + "realesrgan_rimage.7z")
+	io.remove(io._exedir + "realesrgan.7z")
 }
 mainForm.show()
 
@@ -112,14 +106,25 @@ mainForm.start_cov.oncommand = function(id,event){
 	if(count != 0){
 		win.msgbox('请选择正确的图片\nPlease select Pics we support before execute.',"Warning",,mainForm.hwnd,2000)
 	}else{
+		mainForm.start_cov.disabled = true
 		mainForm.file_list.disabled = true
 		pic_re_size = mainForm.size_to.selText
-		quality = mainForm.edit_o_q.text
+		if(mainForm.out_format.selText == "jpg"){
+			format = "jpg"
+		}else{
+			format = "png"
+		}
 		format = mainForm.out_format.selText
 		if(mainForm.auto_del.checked == true){del = true}else{del = false}
 		out_dir = string.slice(mainForm.edit_o_d.text,2,-2,true)
 		auto_hide = mainForm.show_hide.checked
-		auto_size = mainForm.auto_improve.checked
+		if(mainForm.size_to.selText == "1"){
+			auto_size = "1"
+		}elseif(mainForm.size_to.selText == "2"){
+			auto_size = "2"
+		}else{
+			auto_size = "4"
+		}
 		var pic_num = mainForm.file_list.count
 		var file_list_tab = {}
 		for(count=1;pic_num;1){
@@ -128,44 +133,20 @@ mainForm.start_cov.oncommand = function(id,event){
 			temp_file = string.replace(temp_file,"@\","\\")
 			temp_filename = io.splitpath(temp_file).name
 			file_list_tab[count*2] = temp_filename
-			argvs = "-i """ + temp_file + """ -o """ + out_dir + "\" + temp_filename + "_out.png"" -n realesrgan-x4plus-anime"
+			argvs = "-i """ + temp_file + """ -o """ + out_dir + "\" + temp_filename + "_out.png"" -n realesrgan-x4plus-anime -s " + auto_size + " -f " + format
 			mainForm.process_show.text = "RealModel开始 " + temp_filename
 			if(auto_hide){
-				var prcs, err = process.popen(io._exedir + "realesrgan_rimage\realesrgan-ncnn-vulkan.exe",argvs)
+				var prcs, err = process.popen(io._exedir + "realesrgan\realesrgan-ncnn-vulkan.exe",argvs)
 				prcs.codepage = 65001
 				prcs.logResponse(mainForm.process_show)
 				prcs.waitOne()
 			}else{
-				process.executeWait(io._exedir + "realesrgan_rimage\realesrgan-ncnn-vulkan.exe",argvs,,)
-			}
-			if(auto_size){
-				test_gdip,err = gdip.bitmap(temp_file)
-				if(err != null){
-					io.open()
-					io.print("该文件并非正常文件，其内部编码非jpg或png，请自行检查")
-					io.print(temp_file)
-					io.print(" ")
-					io.print("关闭本窗口即可退出程序，否则程序将卡死，直至手动关闭")
-				}
-				argvs = """" + string.replace((out_dir + "\" + temp_filename + "_out.png"),"@\","\\") + """ -t 4 -q " + quality
-				argvs = argvs + " --quantization 100 --dithering 100 -s _updated" 
-				argvs = argvs + " -f " + format
-				argvs = argvs + " --width " + math.roundToEven((test_gdip.width * pic_re_size),0) + " --height " + math.roundToEven((test_gdip.height * pic_re_size),0)
-				argvs = argvs + " -o """ + out_dir + """"
-				test_gdip.dispose()
-				mainForm.process_show.text = "Rimage开始 " + temp_filename
-				if(auto_hide){
-					process.executeWait("""" + io._exedir + "realesrgan_rimage\rimage.exe""",argvs,,0/*_SW_HIDE*/)
-				}else{
-					process.executeWait("""" + io._exedir + "realesrgan_rimage\rimage.exe""",argvs,,)
-				}
-				mainForm.process_show.text = "Rimage结束 "+ temp_filename	
+				process.executeWait(io._exedir + "realesrgan\realesrgan-ncnn-vulkan.exe",argvs,,)
 			}
 			mainForm.process_show.text = "成功Success " + temp_filename
 			
 			mainForm.file_list.delete(1)
 		}
-		
 		
 		for(m,n in file_list_tab){
 			if(m%2 == 0){
@@ -178,8 +159,9 @@ mainForm.start_cov.oncommand = function(id,event){
 		}
 		mainForm.file_list.disabled = false
 		win.setForeground(mainForm.hwnd)
+		mainForm.start_cov.disabled = false
 		win.msgbox("转换完毕！Complete!","成功Success",,mainForm.hwnd,10000)
-		mainForm.process_show.text = "(清空Clear) 显示Rimage运行情况 Show the process of Rimage"
+		mainForm.process_show.text = "(清空Clear) 显示运行情况 Progressbar"
 	}
 }
 
