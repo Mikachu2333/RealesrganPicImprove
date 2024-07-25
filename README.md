@@ -1,4 +1,4 @@
-# RealesrganRimagePicImprove
+# RealesrganPicImprove
 use realesrgan-ncnn-vulkan and rimage to improve the quailty and size of anime pic
 
 # 效果，如下图
